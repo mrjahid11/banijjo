@@ -28,16 +28,8 @@ Thumbs.db
 
 # Chat system and stock purchase/sell related files (examples, adjust as needed)
 # Frontend chat and stock purchase/sell
-frontend/src/api/market.js
-frontend/src/pages/market/
-frontend/src/User/products/
+
 
 # Backend chat and stock purchase/sell
-backend/Banijjo/Banjijjo/src/main/java/com/banijjo/Banjijjo/repository/ChatMessageRepository.java
-backend/Banijjo/Banjijjo/src/main/java/com/banijjo/Banjijjo/repository/PurchaseRepository.java
-backend/Banijjo/Banjijjo/src/main/java/com/banijjo/Banjijjo/repository/SoldShareRepository.java
-backend/Banijjo/Banjijjo/src/main/java/com/banijjo/Banjijjo/service/StockQuoteService.java
-backend/Banijjo/Banjijjo/src/main/java/com/banijjo/Banjijjo/model/Trade.java
-backend/Banijjo/Banjijjo/src/main/java/com/banijjo/Banjijjo/model/StockQuote.java
 
 # Remove above lines if you want to keep source code in git. Only ignore generated or sensitive files.
