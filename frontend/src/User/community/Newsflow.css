@@ -1,0 +1,106 @@
+.newsflow-container {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.newsflow-title {
+  font-size: 24px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.news-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 16px;
+}
+
+.news-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background: white;
+  transition: box-shadow 0.2s;
+}
+
+.news-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.news-image {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.news-content {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.news-headline {
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+.news-summary {
+  font-size: 14px;
+  color: #555;
+  flex-grow: 1;
+}
+
+.news-authors,
+.news-topics {
+  font-size: 12px;
+  color: #888;
+  margin-bottom: 4px;
+}
+
+.sentiment {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.sentiment.bullish {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.sentiment.somewhat-bullish {
+  background-color: #cce5ff;
+  color: #004085;
+}
+
+.sentiment.neutral {
+  background-color: #e2e3e5;
+  color: #383d41;
+}
+
+.sentiment.somewhat-bearish {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.sentiment.bearish {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.read-more {
+  margin-top: auto;
+  font-size: 14px;
+  color: #007bff;
+  text-decoration: none;
+}
+
+.read-more:hover {
+  text-decoration: underline;
+}

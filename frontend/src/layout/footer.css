@@ -1,0 +1,93 @@
+.tv-footer {
+  background-color: #0f172a;
+  color: #e2e8f0;
+  font-family: "Inter", sans-serif;
+  padding: 40px 20px 20px;
+}
+
+.footer-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  max-width: 1400px;
+  margin: auto;
+}
+
+.footer-left {
+  flex: 1 1 250px;
+}
+
+.site-name {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 5px;
+  color: #38bdf8;
+}
+
+.site-motto {
+  font-size: 14px;
+  color: #94a3b8;
+  margin-bottom: 15px;
+}
+
+.social-links a {
+  margin-right: 10px;
+  color: #94a3b8;
+  font-size: 18px;
+  transition: color 0.3s;
+}
+
+.social-links a:hover {
+  color: #38bdf8;
+}
+
+.footer-columns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  flex: 3 1 700px;
+}
+
+.footer-columns div {
+  min-width: 180px;
+}
+
+.footer-columns h4 {
+  font-size: 16px;
+  color: #ffffff;
+  margin-bottom: 8px;
+}
+
+.footer-columns h5 {
+  font-size: 14px;
+  color: #cbd5e1;
+  margin-top: 15px;
+  margin-bottom: 6px;
+}
+
+.footer-columns ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-columns li {
+  font-size: 13px;
+  color: #94a3b8;
+  margin-bottom: 5px;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.footer-columns li:hover {
+  color: #38bdf8;
+}
+
+.footer-bottom {
+  border-top: 1px solid #1e293b;
+  text-align: center;
+  padding-top: 15px;
+  font-size: 12px;
+  color: #64748b;
+  margin-top: 30px;
+}

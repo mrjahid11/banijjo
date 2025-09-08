@@ -1,0 +1,25 @@
+:root[data-bs-theme='light'] {
+  --app-bg: #ffffff;
+  --app-fg: #212529;
+}
+
+:root[data-bs-theme='dark'] {
+  --app-bg: #0b0b0c;
+  --app-fg: #e9ecef;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--app-bg);
+  color: var(--app-fg);
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
