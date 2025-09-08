@@ -20,6 +20,9 @@ import Profile from "./pages/Profile";
 import PortfolioManager from "./pages/PortfolioManager";
 import ForgotPassword from "./pages/ForgotPassword";
 import Education from "./pages/Education";
+import AdminCourses from "./pages/education/AdminCourses";
+import EducationHub from "./pages/education/EducationHub";
+import YourCourses from "./pages/education/YourCourses";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 import Products from "./User/products/Products";
@@ -46,6 +49,7 @@ import BlogCreate from "./pages/blog/BlogCreate";
 import MarketBuy from "./pages/market/MarketBuy";
 import AdminMonitor from "./pages/market/AdminMonitor";
 import MyShare from "./pages/market/MyShare";
+import BrokerDashboard from "./pages/market/BrokerDashboard";
 import HelpCenter from "./pages/HelpCenter";
 import HelpDashboard from "./pages/admin/HelpDashboard";
 
@@ -68,6 +72,9 @@ function App() {
           <Route exact path="/portfolios" element={<ProtectedRoute><PortfolioManager /></ProtectedRoute>} />
           <Route exact path="/forgot-password" element={<ForgotPassword />} />
           <Route exact path="/education" element={<Education />} />
+          <Route exact path="/education/hub" element={<ProtectedRoute><EducationHub /></ProtectedRoute>} />
+          <Route exact path="/education/your-courses" element={<ProtectedRoute><YourCourses /></ProtectedRoute>} />
+          <Route exact path="/admin/education/courses" element={<ProtectedRoute><AdminCourses /></ProtectedRoute>} />
 
           {/* Products pages  */}
           <Route exact path="/products" element={<Products />} />
@@ -114,6 +121,7 @@ function App() {
           <Route exact path="/market" element={<ProtectedRoute><MarketBuy /></ProtectedRoute>} />
           <Route exact path="/admin/market" element={<ProtectedRoute><AdminMonitor /></ProtectedRoute>} />
           <Route exact path="/market/my-share" element={<ProtectedRoute><MyShare /></ProtectedRoute>} />
+          <Route exact path="/brokers" element={<ProtectedRoute roles={["broker","admin"]}><BrokerDashboard /></ProtectedRoute>} />
           {/* Blog */}
           <Route exact path="/blog" element={<BlogList />} />
           <Route exact path="/blog/create" element={<ProtectedRoute><BlogCreate /></ProtectedRoute>} />

@@ -8,4 +8,6 @@ import java.util.List;
 public interface HoldingRepository extends JpaRepository<Holding, Long> {
     List<Holding> findByOwnerId(Long ownerId);
     List<Holding> findByStatusAndOwnerIdNot(HoldingStatus status, Long ownerId);
+    List<Holding> findByOwnerIdAndStatus(Long ownerId, HoldingStatus status);
+    List<Holding> findByOwnerIdAndCompanyId(Long ownerId, Long companyId);
 }

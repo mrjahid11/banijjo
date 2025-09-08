@@ -57,6 +57,8 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/market/companies", "/market/offerings").permitAll()
                 .requestMatchers(HttpMethod.POST, "/market/buy").authenticated()
                 .requestMatchers("/market/admin/**").authenticated()
+                // Brokers endpoints
+                .requestMatchers("/brokers/**").authenticated()
                 .anyRequest().permitAll()
             )
             .headers(h -> h.frameOptions(f -> f.disable()))

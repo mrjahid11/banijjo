@@ -1,0 +1,60 @@
+.stocks-container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 1rem;
+  font-family: "Arial", sans-serif;
+  background-color: #000;
+  color: #fff;
+  border-radius: 10px;
+}
+
+.stocks-title {
+  text-align: center;
+  margin-bottom: 1rem;
+  color: #fff;
+}
+
+.stocks-controls {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.stocks-controls label {
+  color: #fff;
+  font-weight: bold;
+}
+
+.stocks-controls input,
+.stocks-controls select {
+  margin-left: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 5px;
+  border: none;
+}
+
+.stocks-controls button {
+  background-color: #1a1a1a;
+  color: #fff;
+  border: 1px solid #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.stocks-controls button:hover {
+  background-color: #333;
+}
+
+.stocks-chart {
+  height: 500px;
+}
+
+.loading,
+.error {
+  text-align: center;
+  color: #fff;
+  font-size: 1.2rem;
+}

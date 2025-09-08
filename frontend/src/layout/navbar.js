@@ -17,10 +17,11 @@ const Navbar = () => {
   };
 
   const { theme, toggleTheme } = useContext(ThemeContext);
+  const isDark = theme === 'dark';
 
   return (
     <>
-      <style>{`
+  <style>{`
         /* Navbar background */
         .navbar {
           background-color: var(--bs-body-bg) !important;
@@ -40,19 +41,19 @@ const Navbar = () => {
 
         /* Dropdown menu */
         .dropdown-menu {
-          background-color: ${'${theme === "dark" ? "#111111" : "#ffffff"}'};
+          background-color: var(--nav-dd-bg);
           border: none;
           box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
           border-radius: 0.5rem;
         }
         .dropdown-item {
           padding: 0.75rem 1.5rem;
-          color: ${'${theme === "dark" ? "#ffffff" : "#212529"}'};
+          color: var(--nav-dd-fg);
           transition: background-color 0.3s ease;
         }
         .dropdown-item:hover {
-          background-color: ${'${theme === "dark" ? "#343a40" : "#e9ecef"}'};
-          color: ${'${theme === "dark" ? "#f8f9fa" : "#212529"}'};
+          background-color: var(--nav-dd-hover-bg);
+          color: var(--nav-dd-hover-fg);
         }
 
         /* Multi-level dropdowns */
@@ -80,26 +81,26 @@ const Navbar = () => {
         .search-form .form-control {
           border-radius: 50px;
           padding: 0.5rem 1rem;
-          border: 1px solid ${'${theme === "dark" ? "#ffffff" : "#212529"}'};
-          background-color: ${'${theme === "dark" ? "#000000" : "#ffffff"}'};
-          color: ${'${theme === "dark" ? "#ffffff" : "#212529"}'};
+          border: 1px solid var(--nav-input-border);
+          background-color: var(--nav-input-bg);
+          color: var(--nav-input-fg);
           transition: all 0.3s ease;
         }
         .search-form .form-control::placeholder {
-          color: ${'${theme === "dark" ? "#adb5bd" : "#6c757d"}'};
+          color: var(--nav-input-ph);
         }
         .search-form .form-control:focus {
           box-shadow: 0 0 0 0.25rem rgba(255, 255, 255, 0.25);
           border-color: #0d6efd;
-          background-color: ${'${theme === "dark" ? "#000000" : "#ffffff"}'};
-          color: ${'${theme === "dark" ? "#ffffff" : "#212529"}'};
+          background-color: var(--nav-input-bg);
+          color: var(--nav-input-fg);
         }
         .search-form .btn {
           border-radius: 50px;
           padding: 0.5rem 1.5rem;
-          border: 1px solid ${'${theme === "dark" ? "#ffffff" : "#212529"}'};
+          border: 1px solid var(--nav-input-border);
           background-color: transparent;
-          color: ${'${theme === "dark" ? "#ffffff" : "#212529"}'};
+          color: var(--nav-input-fg);
           transition: all 0.3s ease;
         }
         .search-form .btn:hover {
@@ -117,11 +118,11 @@ const Navbar = () => {
         /* Account button */
         .account-btn {
           background-color: transparent;
-          border: 1px solid ${'${theme === "dark" ? "#ffffff" : "#212529"}'};
+          border: 1px solid var(--nav-input-border);
           border-radius: 50px;
           padding: 0.5rem 1.5rem;
           font-weight: 500;
-          color: ${'${theme === "dark" ? "#ffffff" : "#212529"}'};
+          color: var(--nav-input-fg);
           transition: all 0.3s ease;
         }
         .account-btn:hover {
@@ -134,6 +135,7 @@ const Navbar = () => {
           display: block;
         }
   `}</style>
+  <style>{` :root { --nav-dd-bg: ${isDark ? '#111111' : '#ffffff'}; --nav-dd-fg: ${isDark ? '#ffffff' : '#212529'}; --nav-dd-hover-bg: ${isDark ? '#343a40' : '#e9ecef'}; --nav-dd-hover-fg: ${isDark ? '#f8f9fa' : '#212529'}; --nav-input-border: ${isDark ? '#ffffff' : '#212529'}; --nav-input-bg: ${isDark ? '#000000' : '#ffffff'}; --nav-input-fg: ${isDark ? '#ffffff' : '#212529'}; --nav-input-ph: ${isDark ? '#adb5bd' : '#6c757d'}; } `}</style>
 
   <nav className="navbar navbar-expand-lg navbar-dark">
         <div className="container-fluid">
@@ -352,6 +354,11 @@ const Navbar = () => {
                   Markets
                 </a>
                 <ul className="dropdown-menu">
+                  {(role === 'broker' || role === 'admin') && (
+                    <li>
+                      <a className="dropdown-item" href="/brokers">Brokers</a>
+                    </li>
+                  )}
                   <li>
                     <a className="dropdown-item" href="/market">
                       Buy Stock
@@ -457,23 +464,6 @@ const Navbar = () => {
                 >
                   Brokers
                 </a>
-                <ul className="dropdown-menu">
-                  <li>
-                    <a className="dropdown-item" href="/brokers/compare">
-                      Compare Brokers
-                    </a>
-                  </li>
-                  <li>
-                    <a className="dropdown-item" href="/brokers/register">
-                      Open an Account
-                    </a>
-                  </li>
-                  <li>
-                    <a className="dropdown-item" href="/brokers/awards">
-                      Awarded Brokers
-                    </a>
-                  </li>
-                </ul>
               </li>
 
               {/* More */}
@@ -507,11 +497,25 @@ const Navbar = () => {
                     </a>
                   </li>
                   <li>
-                    <a className="dropdown-item" href="/education">
-                      <i className="fa fa-graduation-cap me-2 text-primary"></i>
+                    <a className="dropdown-item" href="/education/hub">
+                      <i className="fa fa-school me-2 text-primary"></i>
                       Education Hub
                     </a>
                   </li>
+                  <li>
+                    <a className="dropdown-item" href="/education/your-courses">
+                      <i className="fa fa-book me-2 text-success"></i>
+                      Your Courses
+                    </a>
+                  </li>
+                  {role === 'admin' && (
+                    <li>
+                      <a className="dropdown-item" href="/admin/education/courses">
+                        <i className="fa fa-chalkboard-teacher me-2 text-warning"></i>
+                        Course
+                      </a>
+                    </li>
+                  )}
                   {role === 'admin' ? (
                     <li>
                       <a className="dropdown-item" href="/admin/help">
