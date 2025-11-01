@@ -137,9 +137,9 @@ const Navbar = () => {
   `}</style>
   <style>{` :root { --nav-dd-bg: ${isDark ? '#111111' : '#ffffff'}; --nav-dd-fg: ${isDark ? '#ffffff' : '#212529'}; --nav-dd-hover-bg: ${isDark ? '#343a40' : '#e9ecef'}; --nav-dd-hover-fg: ${isDark ? '#f8f9fa' : '#212529'}; --nav-input-border: ${isDark ? '#ffffff' : '#212529'}; --nav-input-bg: ${isDark ? '#000000' : '#ffffff'}; --nav-input-fg: ${isDark ? '#ffffff' : '#212529'}; --nav-input-ph: ${isDark ? '#adb5bd' : '#6c757d'}; } `}</style>
 
-  <nav className="navbar navbar-expand-lg navbar-dark">
+  <nav className={`navbar navbar-expand-lg ${isDark ? 'navbar-dark' : 'navbar-light'}`}>
         <div className="container-fluid">
-          <a className="navbar-brand text-white" href="/">
+          <a className={`navbar-brand ${isDark ? 'text-white' : 'text-dark'}`} href="/">
             Banijjo
           </a>
           <button
@@ -346,14 +346,22 @@ const Navbar = () => {
               <li className="nav-item dropdown">
                 <a
                   className="nav-link dropdown-toggle"
-                  href="/markets"
+                  href="#"
                   role="button"
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
+                  onClick={(e) => e.preventDefault()}
                 >
                   Markets
                 </a>
                 <ul className="dropdown-menu">
+                  <li>
+                    <a className="dropdown-item" href="/education">
+                      <i className="fa fa-graduation-cap me-2 text-info"></i>
+                      Learn & Explore Markets
+                    </a>
+                  </li>
+                  <li><hr className="dropdown-divider" /></li>
                   {(role === 'broker' || role === 'admin') && (
                     <li>
                       <a className="dropdown-item" href="/brokers">Brokers</a>
@@ -453,14 +461,11 @@ const Navbar = () => {
                 </ul>
               </li>
 
-              {/* Brokers */}
-              <li className="nav-item dropdown">
+              {/* Brokers (no submenu) */}
+              <li className="nav-item">
                 <a
-                  className="nav-link dropdown-toggle"
+                  className="nav-link"
                   href="/brokers"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
                 >
                   Brokers
                 </a>
@@ -470,10 +475,11 @@ const Navbar = () => {
               <li className="nav-item dropdown">
                 <a
                   className="nav-link dropdown-toggle"
-                  href="/more"
+                  href="#"
                   role="button"
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
+                  onClick={(e) => e.preventDefault()}
                 >
                   More
                 </a>

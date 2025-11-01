@@ -96,6 +96,19 @@ export default function EducationHub() {
     }
   };
 
+  const scrollToCreate = () => {
+    // Try to focus the create title input if present, otherwise navigate to /education
+    try {
+      const el = document.getElementById('create-course-title');
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        el.focus();
+        return;
+      }
+    } catch {}
+    window.location.href = '/education';
+  };
+
   const statusOf = (c) => {
     const now = new Date();
     const s = c.startAt ? new Date(c.startAt) : null;
@@ -138,7 +151,7 @@ export default function EducationHub() {
               <form onSubmit={onCreate} className="row g-3">
                 <div className="col-md-6">
                   <label className="form-label">Title<span className="text-danger">*</span></label>
-                  <input className="form-control" value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} placeholder="e.g., Investing 101" required />
+                  <input id="create-course-title" className="form-control" value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} placeholder="e.g., Investing 101" required />
                 </div>
                 <div className="col-md-6">
                   <label className="form-label">Schedule Notes</label>
@@ -173,10 +186,13 @@ export default function EducationHub() {
               <h5 className="mb-0">Available Courses</h5>
             </div>
             <div className="row g-2 mt-2">
-              <div className="col-8">
+              {/* Make input full-width on small screens and place filters on their own row if needed.
+                  Use md-breakpoints so input (8) + filters (4) stays side-by-side on medium+ screens,
+                  but stacks on smaller viewports to avoid collisions. Allow filter buttons to wrap. */}
+              <div className="col-md-8 col-12">
                 <input className="form-control" placeholder="Search by title, description, syllabus" value={query} onChange={e=>setQuery(e.target.value)} />
               </div>
-              <div className="col-4 d-flex justify-content-end align-items-center gap-2">
+              <div className="col-md-4 col-12 d-flex justify-content-md-end justify-content-start align-items-center gap-2 flex-wrap">
                 {['all','upcoming','ongoing','completed'].map(f => (
                   <button key={f} className={`btn btn-sm ${filter===f? 'btn-dark':'btn-outline-secondary'}`} onClick={()=>setFilter(f)}>{f[0].toUpperCase()+f.slice(1)}</button>
                 ))}
@@ -215,7 +231,29 @@ export default function EducationHub() {
                   </div>
                 </div>
               ))}
-              {!loadingList && !filtered.length && <div className="text-muted p-2">No courses match your search</div>}
+              {!loadingList && !filtered.length && (
+                <div className="list-group-item">
+                  <div className="d-flex align-items-center gap-3">
+                    {/* simple graduation cap svg */}
+                    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M12 2L1 7l11 5 9-4.09V17h2V7L12 2z" fill="currentColor" opacity="0.9" />
+                      <path d="M11 13.07V21h2v-7.93l-1 .45-1-.45z" fill="currentColor" opacity="0.9" />
+                    </svg>
+                    <div className="flex-grow-1">
+                      <div className="fw-semibold">No courses match your search</div>
+                      <div className="small text-muted">Try changing your search or filters.</div>
+                    </div>
+                    <div className="d-flex gap-2">
+                      {!!query && <button className="btn btn-sm btn-outline-secondary" onClick={() => setQuery('')}>Clear</button>}
+                      {isAdmin ? (
+                        <button className="btn btn-sm btn-primary" onClick={scrollToCreate}>Create course</button>
+                      ) : (
+                        <button className="btn btn-sm btn-primary" onClick={() => { setFilter('all'); setQuery(''); }}>Browse all</button>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>

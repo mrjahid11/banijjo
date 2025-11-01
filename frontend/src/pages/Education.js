@@ -47,6 +47,8 @@ export default function Education() {
           --muted: #adb5bd;
           --primary: #0d6efd;
           --primary-ghost: rgba(13,110,253,0.15);
+          /* ensure the page background fills full width so left/right gutters match the hero */
+          background: var(--bg);
         }
         .edu-hero {
           background: radial-gradient(1000px 480px at 10% 10%, var(--primary-ghost), transparent),
@@ -84,7 +86,6 @@ export default function Education() {
 
       <div className="edu-hero">
         <div className="container">
-          <span className="chip">Learn</span>
           <h1 className="mt-2">Learn & Explore the Markets</h1>
           <p>Beginner-friendly tutorials, clear FAQs, and bite-sized market explainers — all in one place.</p>
           <div className="edu-search input-group">
@@ -113,6 +114,24 @@ export default function Education() {
             {filteredTutorials.length === 0 && <div className="text-secondary">No tutorials match your search.</div>}
           </div>
         </section>
+        {/* Market Explainers */}
+        <section className="edu-section" id="explainers">
+          <div className="section-title">
+            <i className="fa fa-lightbulb"></i>
+            <h4 className="m-0">Market Explainers</h4>
+          </div>
+          <div className="edu-grid">
+            {filteredExplainers.map((e, i) => (
+              <div key={i} className="edu-card">
+                <div className="edu-icon"><i className={`fa ${e.icon}`}></i></div>
+                <h6 className="mb-1">{e.title}</h6>
+                <div className="text-secondary small">{e.desc}</div>
+                <a href="/education#explainers" className="mt-2 d-inline-block text-decoration-none">Learn more →</a>
+              </div>
+            ))}
+            {filteredExplainers.length === 0 && <div className="text-secondary">No explainers match your search.</div>}
+          </div>
+        </section>
 
         {/* FAQs */}
         <section className="edu-section" id="faqs">
@@ -130,25 +149,6 @@ export default function Education() {
                 <div className="faq-a">{f.a}</div>
               </details>
             ))}
-          </div>
-        </section>
-
-        {/* Market Explainers */}
-        <section className="edu-section" id="explainers">
-          <div className="section-title">
-            <i className="fa fa-lightbulb"></i>
-            <h4 className="m-0">Market Explainers</h4>
-          </div>
-          <div className="edu-grid">
-            {filteredExplainers.map((e, i) => (
-              <div key={i} className="edu-card">
-                <div className="edu-icon"><i className={`fa ${e.icon}`}></i></div>
-                <h6 className="mb-1">{e.title}</h6>
-                <div className="text-secondary small">{e.desc}</div>
-                <a href="/education#explainers" className="mt-2 d-inline-block text-decoration-none">Learn more →</a>
-              </div>
-            ))}
-            {filteredExplainers.length === 0 && <div className="text-secondary">No explainers match your search.</div>}
           </div>
         </section>
       </div>

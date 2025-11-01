@@ -103,7 +103,9 @@ export default function BlogList() {
             <option value="oldest">Oldest</option>
             <option value="title">Title A→Z</option>
           </select>
-          <a className="btn btn-primary" href="/blog/create">Write a Blog</a>
+          <a className="btn btn-primary vertical" href="/blog/create" aria-label="Write a Blog">
+            <i className="fa fa-pen" aria-hidden="true"></i>
+          </a>
         </div>
       </div>
 

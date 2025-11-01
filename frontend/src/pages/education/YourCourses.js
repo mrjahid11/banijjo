@@ -17,6 +17,8 @@ export default function YourCourses() {
   };
   useEffect(() => { load(); }, []);
 
+  const isAdmin = (typeof window !== 'undefined' ? (localStorage.getItem('user_role') || '').toLowerCase() === 'admin' : false);
+
   const onUnenroll = async (courseId) => {
     if (!window.confirm('Unenroll from this course?')) return;
     try { await unenrollCourse(courseId); await load(); } catch (e) { alert(e?.response?.data || e.message); }
@@ -67,7 +69,24 @@ export default function YourCourses() {
                   <div className="small">Enrolled at: {new Date(e.enrolledAt).toLocaleString()}</div>
                 </button>
               ))}
-              {!loading && !enrolled.length && <div className="text-muted">No enrollments</div>}
+              {!loading && !enrolled.length && (
+                <div className="list-group-item">
+                  <div className="d-flex align-items-center gap-3">
+                    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M12 2L1 7l11 5 9-4.09V17h2V7L12 2z" fill="currentColor" opacity="0.9" />
+                      <path d="M11 13.07V21h2v-7.93l-1 .45-1-.45z" fill="currentColor" opacity="0.9" />
+                    </svg>
+                    <div className="flex-grow-1">
+                      <div className="fw-semibold">No enrollments yet</div>
+                      <div className="small text-muted">You haven't enrolled in any courses.</div>
+                    </div>
+                    <div className="d-flex gap-2">
+                      <button className="btn btn-sm btn-primary" onClick={() => window.location.href = '/education/hub'}>Browse courses</button>
+                      {isAdmin && <button className="btn btn-sm btn-outline-primary" onClick={() => window.location.href = '/education/hub'}>Create course</button>}
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -92,7 +111,7 @@ export default function YourCourses() {
                   <pre className="small" style={{whiteSpace:'pre-wrap'}}>{active.course.syllabus}</pre>
                 </>)}
                 <div className="mt-3 d-flex gap-2">
-                  <a className="btn btn-outline-secondary" href="/education">Explore more courses</a>
+                  <a className="btn btn-outline-secondary" href="/education/hub">Explore more courses</a>
                   <button className="btn btn-outline-danger" onClick={()=>onUnenroll(active.course.id)}>Unenroll</button>
                 </div>
               </div>

@@ -38,6 +38,51 @@
   gap: 8px;
   align-items: center;
 }
+
+/* Make toolbar controls responsive: search grows, select fixed width, action button compact */
+.blog-toolbar .right .form-control {
+  flex: 1 1 320px;
+  min-width: 180px;
+  max-width: 100%;
+}
+.blog-toolbar .right .form-select {
+  flex: 0 0 160px;
+  width: 160px;
+}
+.blog-toolbar .right .btn {
+  flex: 0 0 auto;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 12px;
+  border-radius: 8px;
+}
+
+/* Optional vertical action button style (small square with vertical text) */
+.blog-toolbar .right .btn.vertical {
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+.blog-toolbar .right .btn.vertical i {
+  font-size: 18px;
+}
+
+@media (max-width: 767px) {
+  .blog-toolbar {
+    align-items: stretch;
+  }
+  .blog-toolbar .left { width: 100%; margin-bottom: 8px; }
+  .blog-toolbar .right { width: 100%; gap: 8px; }
+  .blog-toolbar .right .form-control { flex-basis: 100%; }
+  .blog-toolbar .right .form-select { width: 120px; }
+}
 .blog-card {
   border-radius: var(--card-radius);
   overflow: hidden;

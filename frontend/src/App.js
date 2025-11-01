@@ -50,6 +50,7 @@ import MarketBuy from "./pages/market/MarketBuy";
 import AdminMonitor from "./pages/market/AdminMonitor";
 import MyShare from "./pages/market/MyShare";
 import BrokerDashboard from "./pages/market/BrokerDashboard";
+import Brokers from "./User/brokers/Brokers";
 import HelpCenter from "./pages/HelpCenter";
 import HelpDashboard from "./pages/admin/HelpDashboard";
 
@@ -121,7 +122,10 @@ function App() {
           <Route exact path="/market" element={<ProtectedRoute><MarketBuy /></ProtectedRoute>} />
           <Route exact path="/admin/market" element={<ProtectedRoute><AdminMonitor /></ProtectedRoute>} />
           <Route exact path="/market/my-share" element={<ProtectedRoute><MyShare /></ProtectedRoute>} />
-          <Route exact path="/brokers" element={<ProtectedRoute roles={["broker","admin"]}><BrokerDashboard /></ProtectedRoute>} />
+          {/* Public brokers listing */}
+          <Route exact path="/brokers" element={<Brokers />} />
+          {/* Broker-only dashboard moved */}
+          <Route exact path="/broker/dashboard" element={<ProtectedRoute roles={["broker","admin"]}><BrokerDashboard /></ProtectedRoute>} />
           {/* Blog */}
           <Route exact path="/blog" element={<BlogList />} />
           <Route exact path="/blog/create" element={<ProtectedRoute><BlogCreate /></ProtectedRoute>} />
