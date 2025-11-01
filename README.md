@@ -115,37 +115,3 @@ Please follow existing code style and add unit tests for new backend behavior.
 ## License & contact
 
 This repository does not include a license file — add one if you intend to open-source the project. For questions, contact the repository owner.
-
----
-
-If you want, I can also:
-
-- Resolve the merge conflict inside `frontend/README.md` and clean it up.
-- Add a short `README` inside `backend/` and `frontend/` with quick-run commands.
-- Add a sample `.env.example` file under `backend/Banijjo/Banjijjo`.
-
-## Education Hub (Courses)
-
-This project includes an Education Hub allowing admins to offer courses and users to enroll:
-
-- Admins can create, update, and delete courses using the Admin UI (`frontend/src/pages/education/AdminCourses.js`) or via the backend API endpoints under `/courses/admin/*`.
-- Users can browse available courses in the Education Hub (`frontend/src/pages/education/EducationHub.js`) and enroll. Enrollment requests are sent to `/courses/{id}/enroll`.
-- Enrolled courses are visible to users in `Your Courses` (`frontend/src/pages/education/YourCourses.js`) which fetches `/courses/me`.
-
-Key backend endpoints (HTTP):
-
-- GET /courses — list all courses
-- GET /courses/{id} — get course details
-- POST /courses/admin/create — (admin) create a course
-- GET /courses/admin/mine — (admin) list courses created by current admin
-- PUT /courses/admin/{id} — (admin) update
-- DELETE /courses/admin/{id} — (admin) delete
-- POST /courses/{id}/enroll — enroll current user
-- POST /courses/{id}/unenroll — unenroll current user
-- GET /courses/me — list current user's enrollments
-
-This flow is already implemented in the repo (frontend + backend). If you'd like, I can:
-
-- Add example screenshots to the README.
-- Add a `.env.example` and short `education.md` developer guide.
-- Run the dev servers and walk through the enrollment flow to verify everything end-to-end.
