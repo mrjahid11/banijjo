@@ -1,12 +1,11 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { getToken } from "../api/client";
-import { logout as doLogout } from "../api/auth";
+import { logout as doLogout, getProfile } from "../api/auth";
 import { ThemeContext } from "../context/ThemeContext";
 
 const Navbar = () => {
   const token = getToken();
   const role = typeof window !== 'undefined' ? localStorage.getItem('user_role') : null;
-
   const handleLogout = async () => {
     try {
       await doLogout();
@@ -15,127 +14,151 @@ const Navbar = () => {
     }
     window.location.href = "/";
   };
-
   const { theme, toggleTheme } = useContext(ThemeContext);
   const isDark = theme === 'dark';
+  const [displayName, setDisplayName] = useState(null);
+
+  useEffect(() => {
+    let mounted = true;
+    async function loadName() {
+      try {
+        if (!token) return;
+        const uid = Number(localStorage.getItem("userId"));
+        if (!uid) return;
+        const data = await getProfile(uid);
+        if (!mounted) return;
+        setDisplayName(data?.username || data?.name || `User${uid}`);
+      } catch (e) {
+        // ignore silently
+      }
+    }
+    loadName();
+    return () => { mounted = false; };
+  }, [token]);
 
   return (
     <>
   <style>{`
-        /* Navbar background */
+        /* NAVBAR: dark, compact layout matching screenshot */
         .navbar {
-          background-color: var(--bs-body-bg) !important;
-          padding: 1rem 0;
+          background: #0b0b0b !important;
+          border-bottom: 1px solid rgba(255,255,255,0.04);
+          padding: 0.45rem 0;
         }
 
-        /* Navbar links */
+        .navbar-brand {
+          font-weight: 800;
+          color: #ffffff !important;
+          margin-right: 1rem;
+        }
+
+        /* Centered nav with compact links */
         .nav-link {
+          color: rgba(255,255,255,0.9) !important;
+          padding: 0.45rem 0.7rem;
           font-weight: 500;
-          padding: 0.5rem 1rem;
-          transition: color 0.3s ease;
-          color: var(--bs-body-color) !important;
+          font-size: 0.95rem;
         }
-        .nav-link:hover {
-          color: #0d6efd !important;
-        }
+        .nav-link:hover { color: #9dd1ff !important; }
 
-        /* Dropdown menu */
+        /* Large dark dropdown panel like the mock */
         .dropdown-menu {
-          background-color: var(--nav-dd-bg);
+          background: #0b0b0b;
+          border: 1px solid rgba(255,255,255,0.03);
+          box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+          border-radius: 8px;
+          padding: 0.5rem 0;
+        }
+        .dropdown-item { color: #e6eef8; padding: 0.6rem 1.2rem; }
+        .dropdown-item:hover { background: rgba(255,255,255,0.03); color: #fff; }
+        .dropdown-label { color: #9fb3c7; padding: 0.5rem 1.2rem; }
+
+        /* Search in center: darker rounded input */
+        .search-form { max-width: 640px; width: 48%; }
+        .search-form .form-control {
+          border-radius: 999px;
+          padding: 0.4rem 1rem;
           border: none;
-          box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-          border-radius: 0.5rem;
+          background: rgba(255,255,255,0.04);
+          color: #e6eef8;
+          box-shadow: none;
         }
-        .dropdown-item {
-          padding: 0.75rem 1.5rem;
-          color: var(--nav-dd-fg);
-          transition: background-color 0.3s ease;
-        }
-        .dropdown-item:hover {
-          background-color: var(--nav-dd-hover-bg);
-          color: var(--nav-dd-hover-fg);
-        }
-
-        /* Multi-level dropdowns */
-        .dropdown-submenu {
-          position: relative;
-        }
-        .dropdown-submenu .dropdown-menu {
-          top: 0;
-          left: 100%;
-          margin-left: 0.1rem;
-        }
-        .dropdown-submenu:hover > .dropdown-menu {
-          display: block;
+        .search-form .form-control::placeholder { color: rgba(255,255,255,0.45); }
+        .search-form .btn {
+          margin-left: 0.5rem;
+          border-radius: 999px;
+          padding: 0.35rem 0.9rem;
+          border: 1px solid rgba(255,255,255,0.06);
+          background: rgba(255,255,255,0.06);
+          color: #fff;
         }
 
-        /* Dropdown labels */
-        .dropdown-label {
-          font-size: 0.75rem;
-          color: #adb5bd;
-          padding: 0.25rem 1.5rem;
+        /* center nav region */
+        .navbar-nav.middle-nav { flex: 1 1 auto; justify-content: flex-start; gap: 0.25rem; }
+        .navbar-nav.middle-nav > .nav-item:first-child { margin-left: 0.5rem; }
+
+        /* Username button minimal */
+        .account-btn { background: transparent; border: none; padding: 0.2rem 0.6rem; color: #fff; }
+        .account-btn:hover { background: rgba(255,255,255,0.03); color: #fff; }
+        .account-btn.dropdown-toggle { box-shadow: none; }
+
+        /* Dropdown alignment and viewport safety */
+        .navbar .dropdown-menu.dropdown-menu-end { right: 0; left: auto; min-width: 12rem; max-width: 92vw; }
+        @media (max-width: 767.98px) {
+          .search-form { width: 100%; margin: 0.5rem 0; }
+          .navbar-nav.middle-nav { justify-content: center; }
+          .navbar .dropdown-menu { position: static !important; width: 100%; }
+        }
+        /* Submenu (open to the right) with subtle animation */
+        .dropdown-submenu { position: relative; }
+        .dropdown-submenu > .dropdown-toggle { position: relative; padding-right: 2rem; }
+        /* hide browser/bootstrap pseudo-caret for nested toggles so we can use an explicit element */
+        .dropdown-submenu > .dropdown-toggle::after { content: none !important; }
+
+        /* explicit submenu caret element to avoid overlap and allow easy rotation */
+        .submenu-caret {
+          position: absolute;
+          right: 0.6rem;
+          top: 50%;
+          transform: translateY(-50%);
+          opacity: 0.9;
+          font-size: 0.9rem;
+          transition: transform 150ms ease, opacity 150ms ease;
           pointer-events: none;
         }
-
-        /* Search bar */
-        .search-form .form-control {
-          border-radius: 50px;
-          padding: 0.5rem 1rem;
-          border: 1px solid var(--nav-input-border);
-          background-color: var(--nav-input-bg);
-          color: var(--nav-input-fg);
-          transition: all 0.3s ease;
-        }
-        .search-form .form-control::placeholder {
-          color: var(--nav-input-ph);
-        }
-        .search-form .form-control:focus {
-          box-shadow: 0 0 0 0.25rem rgba(255, 255, 255, 0.25);
-          border-color: #0d6efd;
-          background-color: var(--nav-input-bg);
-          color: var(--nav-input-fg);
-        }
-        .search-form .btn {
-          border-radius: 50px;
-          padding: 0.5rem 1.5rem;
-          border: 1px solid var(--nav-input-border);
-          background-color: transparent;
-          color: var(--nav-input-fg);
-          transition: all 0.3s ease;
-        }
-        .search-form .btn:hover {
-          background-color: #0d6efd;
-          border-color: #0d6efd;
-          color: #ffffff;
+        .dropdown-submenu > .dropdown-toggle[aria-expanded="true"] .submenu-caret {
+          transform: translateY(-50%) rotate(90deg);
         }
 
-        /* Center middle items */
-        .navbar-nav.middle-nav {
-          flex-grow: 1;
-          justify-content: center;
+        .dropdown-submenu > .dropdown-menu {
+          position: absolute;
+          top: 0;
+          left: 100%;
+          margin-left: 0.35rem;
+          z-index: 1050; /* above parent dropdown */
+          min-width: 12rem;
+          display: block; /* keep in flow for transition but hidden by opacity/transform */
+          opacity: 0;
+          transform: translateX(-8px);
+          transform-origin: left center;
+          transition: opacity 160ms ease, transform 160ms ease;
+          pointer-events: none;
+        }
+        .dropdown-submenu > .dropdown-menu.show {
+          opacity: 1;
+          transform: translateX(0);
+          pointer-events: auto;
         }
 
-        /* Account button */
-        .account-btn {
-          background-color: transparent;
-          border: 1px solid var(--nav-input-border);
-          border-radius: 50px;
-          padding: 0.5rem 1.5rem;
-          font-weight: 500;
-          color: var(--nav-input-fg);
-          transition: all 0.3s ease;
-        }
-        .account-btn:hover {
-          background-color: #0d6efd;
-          color: #ffffff;
-        }
+        /* Ensure top-level caret still points down */
+        .nav-item.dropdown > .nav-link.dropdown-toggle::after { transform: none; }
 
-        /* Dropdowns on hover */
-        .navbar-nav .dropdown:hover > .dropdown-menu {
-          display: block;
+        @media (max-width: 767.98px) {
+          /* On mobile make submenus full-width stacked beneath parent; disable side animation */
+          .dropdown-submenu > .dropdown-menu { position: static !important; left: auto; margin-left: 0; opacity: 1; transform: none; pointer-events: auto; width: 100%; }
+          .dropdown-submenu > .dropdown-toggle .submenu-caret { position: static; transform: none; margin-left: 0.5rem; right: auto; display: inline-block; }
         }
   `}</style>
-  <style>{` :root { --nav-dd-bg: ${isDark ? '#111111' : '#ffffff'}; --nav-dd-fg: ${isDark ? '#ffffff' : '#212529'}; --nav-dd-hover-bg: ${isDark ? '#343a40' : '#e9ecef'}; --nav-dd-hover-fg: ${isDark ? '#f8f9fa' : '#212529'}; --nav-input-border: ${isDark ? '#ffffff' : '#212529'}; --nav-input-bg: ${isDark ? '#000000' : '#ffffff'}; --nav-input-fg: ${isDark ? '#ffffff' : '#212529'}; --nav-input-ph: ${isDark ? '#adb5bd' : '#6c757d'}; } `}</style>
 
   <nav className={`navbar navbar-expand-lg ${isDark ? 'navbar-dark' : 'navbar-light'}`}>
         <div className="container-fluid">
@@ -200,8 +223,10 @@ const Navbar = () => {
                     <a
                       className="dropdown-item dropdown-toggle"
                       href="/products/screeners"
+                      aria-expanded="false"
                     >
                       Screeners
+                      <span className="submenu-caret" aria-hidden="true">▸</span>
                     </a>
                     <ul className="dropdown-menu">
                       <li>
@@ -244,8 +269,10 @@ const Navbar = () => {
                     <a
                       className="dropdown-item dropdown-toggle"
                       href="/products/calenders"
+                      aria-expanded="false"
                     >
                       Calendars
+                      <span className="submenu-caret" aria-hidden="true">▸</span>
                     </a>
                     <ul className="dropdown-menu">
                       <li>
@@ -425,8 +452,10 @@ const Navbar = () => {
                     <a
                       className="dropdown-item dropdown-toggle"
                       href="/markets/assets/bonds"
+                      aria-expanded="false"
                     >
                       Bonds
+                      <span className="submenu-caret" aria-hidden="true">▸</span>
                     </a>
                     <ul className="dropdown-menu">
                       <li>
@@ -549,26 +578,43 @@ const Navbar = () => {
             {/* Right side auth controls */}
             <ul className="navbar-nav ms-auto">
               <li className="nav-item me-2">
-                <button type="button" className="nav-link account-btn" onClick={toggleTheme}>
-                  {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
+                <button
+                  type="button"
+                  className="nav-link account-btn theme-toggle"
+                  onClick={toggleTheme}
+                  aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+                >
+                  {/* use solid icons for clearer glyphs */}
+                  <i className={`fas ${isDark ? 'fa-sun' : 'fa-moon'}`} aria-hidden="true" />
                 </button>
               </li>
-        {token ? (
-                <>
-                  <li className="nav-item me-2">
-                    <a className="nav-link account-btn" href="/profile">Profile</a>
-                  </li>
-                  <li className="nav-item">
-                    <button
-          type="button"
-          className="nav-link account-btn"
-          onClick={handleLogout}
-                    >
-                      Sign out
-                    </button>
-                  </li>
-                </>
-              ) : (
+            {token ? (
+              <>
+                <li className="nav-item dropdown">
+                  <button
+                    className="nav-link account-btn dropdown-toggle"
+                    id="accountDropdown"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                    type="button"
+                  >
+                    {displayName || 'Account'}
+                  </button>
+                  <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="accountDropdown">
+                        <li>
+                          <a className="dropdown-item" href="/profile">Profile</a>
+                        </li>
+                        <li>
+                          <a className="dropdown-item" href="/brokers/hire">Hire broker</a>
+                        </li>
+                        <li><hr className="dropdown-divider" /></li>
+                        <li>
+                          <button className="dropdown-item" onClick={handleLogout}>Sign out</button>
+                        </li>
+                  </ul>
+                </li>
+              </>
+            ) : (
                 <>
                   <li className="nav-item me-2">
                     <a className="nav-link account-btn" href="/signin">Sign in</a>

@@ -84,7 +84,7 @@ const Brokers = () => {
           <div className="text-muted small">Find brokers by instruments, fees and services.</div>
         </div>
         <div className="d-flex gap-2 align-items-center">
-          <input className="form-control" style={{minWidth:240}} placeholder="Search brokers by name or description" value={query} onChange={e=>setQuery(e.target.value)} />
+          <input className="form-control" style={{minWidth:240}} placeholder="Search brokers by name or keyword" value={query} onChange={e=>setQuery(e.target.value)} />
           <select className="form-select" style={{width:160}} value={filter} onChange={e=>setFilter(e.target.value)}>
             {instruments.map(i => <option key={i} value={i==='All'?'all':i}>{i}</option>)}
           </select>

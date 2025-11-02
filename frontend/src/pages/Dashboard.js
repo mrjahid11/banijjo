@@ -110,8 +110,9 @@ const Dashboard = () => {
 
   return (
     <>
-      <style>{`
+    <style>{`
   /* High-contrast palette and component styles */
+  /* Default (light-leaning) styles */
   .dash-hero { background: #0b132b; color: #ffffff; border-radius: 12px; padding: 24px; }
   .metric { background: #111827; color: #ffffff; border-radius: 10px; padding: 16px; box-shadow: 0 0 0 1px #0f172a inset; }
   .metric h6 { color: #e5e7eb; font-weight: 600; margin-bottom: 6px; }
@@ -147,12 +148,46 @@ const Dashboard = () => {
   .input-group-text { background: #111111; color: #ffffff; border: 1px solid #111111; }
   .form-control { background: #ffffff; color: #111111; border: 2px solid #111111; }
   .form-control::placeholder { color: #495057; }
-  .form-control:focus { outline: none; border-color: #0d6efd; box-shadow: 0 0 0 3px rgba(13,110,253,0.25); }
+  /* Remove the strong blue focus ring here to keep inputs consistent with site theme
+    and avoid a bright blue halo on the dashboard search input. Keep a subtle border change. */
+  .form-control:focus { outline: none; border-color: rgba(17,17,17,0.9); box-shadow: none; }
   .btn-outline-success { color: #0f5132; border-color: #0f5132; }
   .btn-outline-success:hover { background: #198754; color: #ffffff; border-color: #198754; }
   .btn-primary { background: #0d6efd; border-color: #0d6efd; font-weight: 700; }
   .btn-primary:disabled { background: #6c757d; border-color: #6c757d; }
-      `}</style>
+
+  /* Dark-mode overrides when ThemeContext sets data-bs-theme="dark" on <html> */
+  [data-bs-theme="dark"] .dash-hero { background: #071028; color: #e6eef8; }
+  [data-bs-theme="dark"] .metric { background: #071028; color: #e6eef8; box-shadow: 0 0 0 1px #0b1323 inset; }
+  [data-bs-theme="dark"] .metric h6 { color: #cfe7ff; }
+
+  [data-bs-theme="dark"] .positions { background: #071026; color: #e6eef8; box-shadow: 0 0 0 1px #0f172a inset; }
+  [data-bs-theme="dark"] .positions h5 { color: #e6eef8; }
+  [data-bs-theme="dark"] .positions small { color: #9fb3c7 !important; }
+  [data-bs-theme="dark"] .positions .table thead th { background: #071028; color: #e6eef8; border-color: #071028; }
+  [data-bs-theme="dark"] .positions .table tbody tr:nth-child(even) { background: #071726; }
+  [data-bs-theme="dark"] .positions .table td, [data-bs-theme="dark"] .positions .table th { border-color: #0b2233; }
+
+  [data-bs-theme="dark"] .pill.green { background: #083926; color: #bff0d8; box-shadow: 0 0 0 1px #10b981 inset; }
+  [data-bs-theme="dark"] .pill.red { background: #3b0d0d; color: #ffd6d6; box-shadow: 0 0 0 1px #ef4444 inset; }
+
+  [data-bs-theme="dark"] .sidebar { background: #071026; color: #e6eef8; box-shadow: 0 0 0 1px #0b1323 inset; }
+  [data-bs-theme="dark"] .chat-list-item { color: #dbeefc; }
+  [data-bs-theme="dark"] .chat-list-item:hover { background: #0b2233; }
+  [data-bs-theme="dark"] .chat-list-item.active { background: #0b5bff; color: #ffffff; }
+
+  [data-bs-theme="dark"] .chat-panel { background: #071026; color: #e6eef8; box-shadow: 0 0 0 1px #0b1323 inset; }
+  [data-bs-theme="dark"] .msg { box-shadow: none; }
+  [data-bs-theme="dark"] .msg.them { background: #082033; color: #d7eaf7; }
+  [data-bs-theme="dark"] .msg.me { background: #0d6efd; color: #ffffff; }
+
+  [data-bs-theme="dark"] .input-group-text { background: #071026; color: #e6eef8; border: 1px solid #0b1323; }
+  [data-bs-theme="dark"] .form-control { background: #071026; color: #e6eef8; border: 1px solid #0b1323; }
+  [data-bs-theme="dark"] .form-control::placeholder { color: #6c8797; }
+  /* dark-mode: avoid bright blue halo; use subtle highlight consistent with dark panels */
+  [data-bs-theme="dark"] .form-control:focus { box-shadow: none; border-color: rgba(255,255,255,0.06); }
+
+  `}</style>
       <div className="container my-4 layout">
         {/* Sidebar: chat companies */}
         <div className="sidebar">
