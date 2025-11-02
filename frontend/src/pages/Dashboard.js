@@ -151,6 +151,22 @@ const Dashboard = () => {
   /* Remove the strong blue focus ring here to keep inputs consistent with site theme
     and avoid a bright blue halo on the dashboard search input. Keep a subtle border change. */
   .form-control:focus { outline: none; border-color: rgba(17,17,17,0.9); box-shadow: none; }
+  /* Override browser autofill / autofill focus which can force a blue/yellow background
+     (Chrome, Edge). Keep the visible background consistent with the page theme. */
+  input.form-control:-webkit-autofill,
+  textarea.form-control:-webkit-autofill,
+  select.form-control:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 30px #ffffff inset !important;
+            box-shadow: 0 0 0 30px #ffffff inset !important;
+    -webkit-text-fill-color: #111111 !important;
+  }
+  input.form-control:-webkit-autofill:focus,
+  textarea.form-control:-webkit-autofill:focus,
+  select.form-control:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0 30px #ffffff inset !important;
+            box-shadow: 0 0 0 30px #ffffff inset !important;
+    -webkit-text-fill-color: #111111 !important;
+  }
   .btn-outline-success { color: #0f5132; border-color: #0f5132; }
   .btn-outline-success:hover { background: #198754; color: #ffffff; border-color: #198754; }
   .btn-primary { background: #0d6efd; border-color: #0d6efd; font-weight: 700; }
@@ -186,6 +202,21 @@ const Dashboard = () => {
   [data-bs-theme="dark"] .form-control::placeholder { color: #6c8797; }
   /* dark-mode: avoid bright blue halo; use subtle highlight consistent with dark panels */
   [data-bs-theme="dark"] .form-control:focus { box-shadow: none; border-color: rgba(255,255,255,0.06); }
+  /* Autofill override for dark mode */
+  [data-bs-theme="dark"] input.form-control:-webkit-autofill,
+  [data-bs-theme="dark"] textarea.form-control:-webkit-autofill,
+  [data-bs-theme="dark"] select.form-control:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 30px #071026 inset !important;
+            box-shadow: 0 0 0 30px #071026 inset !important;
+    -webkit-text-fill-color: #e6eef8 !important;
+  }
+  [data-bs-theme="dark"] input.form-control:-webkit-autofill:focus,
+  [data-bs-theme="dark"] textarea.form-control:-webkit-autofill:focus,
+  [data-bs-theme="dark"] select.form-control:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0 30px #071026 inset !important;
+            box-shadow: 0 0 0 30px #071026 inset !important;
+    -webkit-text-fill-color: #e6eef8 !important;
+  }
 
   `}</style>
       <div className="container my-4 layout">

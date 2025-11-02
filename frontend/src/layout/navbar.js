@@ -39,13 +39,6 @@ const Navbar = () => {
   return (
     <>
   <style>{`
-        /* NAVBAR: dark, compact layout matching screenshot */
-        .navbar {
-          background: #0b0b0b !important;
-          border-bottom: 1px solid rgba(255,255,255,0.04);
-          padding: 0.45rem 0;
-        }
-
         .navbar-brand {
           font-weight: 800;
           color: #ffffff !important;
@@ -79,11 +72,25 @@ const Navbar = () => {
           border-radius: 999px;
           padding: 0.4rem 1rem;
           border: none;
-          background: rgba(255,255,255,0.04);
+          background: rgba(255,255,255,0.03);
           color: #e6eef8;
           box-shadow: none;
         }
+        /* keep search input stable on focus (no bright blue halo) */
+        .search-form .form-control:focus {
+          outline: none;
+          background: rgba(255,255,255,0.03);
+          box-shadow: none;
+          border-color: transparent;
+        }
         .search-form .form-control::placeholder { color: rgba(255,255,255,0.45); }
+        /* prevent browser autofill from tinting the search box */
+        .search-form input.form-control:-webkit-autofill,
+        .search-form textarea.form-control:-webkit-autofill {
+          -webkit-box-shadow: 0 0 0px 1000px rgba(255,255,255,0.03) inset !important;
+                  box-shadow: 0 0 0px 1000px rgba(255,255,255,0.03) inset !important;
+          -webkit-text-fill-color: #e6eef8 !important;
+        }
         .search-form .btn {
           margin-left: 0.5rem;
           border-radius: 999px;
@@ -108,6 +115,21 @@ const Navbar = () => {
           .search-form { width: 100%; margin: 0.5rem 0; }
           .navbar-nav.middle-nav { justify-content: center; }
           .navbar .dropdown-menu { position: static !important; width: 100%; }
+        }
+        /* dark-mode: ensure search input matches dark panel color and no blue halo */
+        [data-bs-theme="dark"] .search-form .form-control {
+          background: rgba(255,255,255,0.02);
+          color: #e6eef8;
+        }
+        [data-bs-theme="dark"] .search-form .form-control:focus {
+          background: rgba(255,255,255,0.02);
+          box-shadow: none;
+          border-color: transparent;
+        }
+        [data-bs-theme="dark"] .search-form input.form-control:-webkit-autofill {
+          -webkit-box-shadow: 0 0 0px 1000px rgba(255,255,255,0.02) inset !important;
+                  box-shadow: 0 0 0px 1000px rgba(255,255,255,0.02) inset !important;
+          -webkit-text-fill-color: #e6eef8 !important;
         }
         /* Submenu (open to the right) with subtle animation */
         .dropdown-submenu { position: relative; }
@@ -382,13 +404,6 @@ const Navbar = () => {
                   Markets
                 </a>
                 <ul className="dropdown-menu">
-                  <li>
-                    <a className="dropdown-item" href="/education">
-                      <i className="fa fa-graduation-cap me-2 text-info"></i>
-                      Learn & Explore Markets
-                    </a>
-                  </li>
-                  <li><hr className="dropdown-divider" /></li>
                   {(role === 'broker' || role === 'admin') && (
                     <li>
                       <a className="dropdown-item" href="/brokers">Brokers</a>
@@ -541,6 +556,12 @@ const Navbar = () => {
                     <a className="dropdown-item" href="/education/your-courses">
                       <i className="fa fa-book me-2 text-success"></i>
                       Your Courses
+                    </a>
+                  </li>
+                  <li>
+                    <a className="dropdown-item" href="/education">
+                      <i className="fa fa-graduation-cap me-2 text-info"></i>
+                      Learn
                     </a>
                   </li>
                   {role === 'admin' && (
