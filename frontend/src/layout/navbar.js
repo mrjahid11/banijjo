@@ -39,6 +39,10 @@ const Navbar = () => {
   return (
     <>
   <style>{`
+        /* Navbar base: hint black background */
+        .navbar { background: #000000 !important; border-bottom: 1px solid rgba(255,255,255,0.04); padding: 0.45rem 0; }
+        .navbar-dark .navbar-toggler-icon { filter: invert(1) brightness(0.9); }
+
         .navbar-brand {
           font-weight: 800;
           color: #ffffff !important;
@@ -56,7 +60,7 @@ const Navbar = () => {
 
         /* Large dark dropdown panel like the mock */
         .dropdown-menu {
-          background: #0b0b0b;
+          background: #000000;
           border: 1px solid rgba(255,255,255,0.03);
           box-shadow: 0 6px 20px rgba(0,0,0,0.5);
           border-radius: 8px;
@@ -71,26 +75,27 @@ const Navbar = () => {
         .search-form .form-control {
           border-radius: 999px;
           padding: 0.4rem 1rem;
-          border: none;
-          background: rgba(255,255,255,0.03);
-          color: #e6eef8;
+          /* stronger inner panel so the search box is visible: deep charcoal */
+          border: 1px solid rgba(255,255,255,0.06);
+          background: #0b0b0b; /* distinct dark shade */
+          color: #e6eef8; /* slightly lighter than pure white */
           box-shadow: none;
         }
-        /* keep search input stable on focus (no bright blue halo) */
+        /* keep search input stable on focus but give a subtle outline */
         .search-form .form-control:focus {
           outline: none;
           background: rgba(255,255,255,0.03);
-          box-shadow: none;
-          border-color: transparent;
+          box-shadow: 0 0 0 4px rgba(255,255,255,0.02);
+          border-color: rgba(255,255,255,0.12);
         }
-        .search-form .form-control::placeholder { color: rgba(255,255,255,0.45); }
-        /* prevent browser autofill from tinting the search box */
-        .search-form input.form-control:-webkit-autofill,
-        .search-form textarea.form-control:-webkit-autofill {
-          -webkit-box-shadow: 0 0 0px 1000px rgba(255,255,255,0.03) inset !important;
-                  box-shadow: 0 0 0px 1000px rgba(255,255,255,0.03) inset !important;
-          -webkit-text-fill-color: #e6eef8 !important;
-        }
+  .search-form .form-control::placeholder { color: rgba(230,238,248,0.45); }
+  /* prevent browser autofill from tinting the search box */
+  .search-form input.form-control:-webkit-autofill,
+  .search-form textarea.form-control:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px rgba(255,255,255,0.03) inset !important;
+      box-shadow: 0 0 0px 1000px rgba(255,255,255,0.03) inset !important;
+    -webkit-text-fill-color: #ffffff !important;
+  }
         .search-form .btn {
           margin-left: 0.5rem;
           border-radius: 999px;
@@ -118,18 +123,20 @@ const Navbar = () => {
         }
         /* dark-mode: ensure search input matches dark panel color and no blue halo */
         [data-bs-theme="dark"] .search-form .form-control {
-          background: rgba(255,255,255,0.02);
+          /* use the same dark charcoal in dark mode for consistency */
+          background: #0b0b0b;
           color: #e6eef8;
+          border: 1px solid rgba(255,255,255,0.04);
         }
         [data-bs-theme="dark"] .search-form .form-control:focus {
-          background: rgba(255,255,255,0.02);
-          box-shadow: none;
-          border-color: transparent;
+          background: #0b0b0b;
+          box-shadow: 0 0 0 4px rgba(230,238,248,0.02);
+          border-color: rgba(255,255,255,0.12);
         }
         [data-bs-theme="dark"] .search-form input.form-control:-webkit-autofill {
           -webkit-box-shadow: 0 0 0px 1000px rgba(255,255,255,0.02) inset !important;
                   box-shadow: 0 0 0px 1000px rgba(255,255,255,0.02) inset !important;
-          -webkit-text-fill-color: #e6eef8 !important;
+          -webkit-text-fill-color: #ffffff !important;
         }
         /* Submenu (open to the right) with subtle animation */
         .dropdown-submenu { position: relative; }
